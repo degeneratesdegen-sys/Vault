@@ -51,8 +51,8 @@
 
         <div v-if="currentTab === 'crypto'">
             <div class="balance-card crypto-card">
-                <div class="label">TOTAL CRYPTO INVESTED</div>
-                <div class="amount">{{ settings.currency }}{{ cryptoTotal.toFixed(2) }}</div>
+                <div class="label">CRYPTO PORTFOLIO</div>
+                <div class="amount">History</div>
                 <button class="btn-export-mini" @click="exportCryptoCSV">Export Crypto CSV 📥</button>
             </div>
             <div class="crypto-grid">
@@ -68,7 +68,7 @@
                     <div class="t-cat">{{ t.category }} <span class="t-asset-tag">{{t.asset}}</span></div>
                     <div class="t-sub">{{ t.notes || formatDate(t.date) }}</div>
                 </div>
-                <div :class="['t-amt', t.category === 'Crypto Sell' ? 'plus' : '']">{{ settings.currency }}{{ t.amount }}</div>
+                <div class="t-amt">{{ settings.currency }}{{ t.amount }}</div>
             </div>
         </div>
 
@@ -87,7 +87,6 @@
             <button class="hub-btn-special" style="background: #32D74B; border:none; color:white;" @click="quickAdd('Paycheque')">💰 Add Paycheque</button>
             <div class="setting-list">
                 <div class="s-item" @click="subView = 'budget'"><span>📊 Monthly Budget</span><span class="s-val">{{settings.monthlyBudget}} ›</span></div>
-                <div class="s-item" @click="subView = 'crypto_init'"><span>₿ Start Crypto Value</span><span class="s-val">{{settings.initialCrypto}} ›</span></div>
                 <div class="s-item" @click="exportCSV"><span>📥 Export Full CSV</span></div>
                 <div class="s-item danger" @click="logout">🔐 Log Out</div>
             </div>
@@ -111,24 +110,17 @@
                 <input type="number" v-model.number="entry.amount" class="amt-input" autofocus>
             </div>
             <input type="text" v-model="entry.notes" class="f-input" placeholder="Notes / Description" style="margin-bottom:12px;">
-            
             <input v-if="entry.category.includes('Crypto')" type="text" v-model="entry.asset" class="f-input" placeholder="e.g. BTC" style="text-align:center">
             
             <div class="cat-grid">
-    <div v-for="c in allCategories" :key="c" :class="['cat-pill', entry.category === c ? 'active' : '']" @click="entry.category = c">{{getEmoji(c)}} {{c}}</div>
-</div>
-
+                <div v-for="c in allCategories" :key="c" :class="['cat-pill', entry.category === c ? 'active' : '']" @click="entry.category = c">{{getEmoji(c)}} {{c}}</div>
+            </div>
             <button class="btn-primary" @click="saveEntry">Save</button>
             <button v-if="isEditing" @click="deleteTransaction" class="btn-delete">Delete</button>
         </div>
         <div v-if="subView === 'budget'">
             <h2 style="text-align:center">Budget</h2>
             <input type="number" v-model.number="settings.monthlyBudget" class="huge-input">
-            <button class="btn-primary" @click="subView = null">Done</button>
-        </div>
-        <div v-if="subView === 'crypto_init'">
-            <h2 style="text-align:center">Portfolio Start</h2>
-            <input type="number" v-model.number="settings.initialCrypto" class="huge-input">
             <button class="btn-primary" @click="subView = null">Done</button>
         </div>
     </div>
