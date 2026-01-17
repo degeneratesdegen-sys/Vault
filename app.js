@@ -18,7 +18,7 @@ const auth = getAuth(app);
 Vue.createApp({
   data() {
     return {
-      version: "1.0.6",
+      version: "1.0.7",
       currentUser: null, loginEmail: '', loginPass: '', currentTab: 'home', subView: null, newCatName: '', showModal: false, isEditing: false, isSaving: false, exportStatus: 'Export Data', transactions: [],
       settings: JSON.parse(localStorage.getItem('vault_v21')) || { currency:"$", monthlyBudget: 2500, expenseCats:["Groceries","Rent","Dining","Gas","Fun"] },
       entry: { id: null, amount: null, category: 'Groceries', date: null }
